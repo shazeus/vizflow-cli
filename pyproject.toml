@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=77.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vizflow-cli"
+version = "0.1.0"
+description = "A data visualization pipeline tool for schema inspection, chart generation, dashboards, and export."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+  { name = "shazeus", email = "efeborazan07@gmail.com" }
+]
+keywords = [
+  "visualization",
+  "plotly",
+  "pandas",
+  "dashboard",
+  "cli",
+  "data-analysis",
+  "charts"
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Framework :: Flask",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Visualization",
+  "Topic :: Utilities",
+]
+dependencies = [
+  "click>=8.1",
+  "flask>=3.0",
+  "kaleido>=0.2.1",
+  "matplotlib>=3.9",
+  "pandas>=2.0",
+  "plotly>=5.18",
+  "pyarrow>=14.0",
+  "rich>=13.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/shazeus/vizflow-cli"
+Repository = "https://github.com/shazeus/vizflow-cli"
+Issues = "https://github.com/shazeus/vizflow-cli/issues"
+
+[project.scripts]
+vizflow = "vizflow.cli:cli"
+
+[tool.setuptools.packages.find]
+include = ["vizflow*"]
