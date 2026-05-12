@@ -2,10 +2,10 @@
   <h1 align="center">Vizflow</h1>
   <p align="center">A data visualization pipeline tool for fast schema inspection, charting, dashboards, and export.</p>
   <p align="center">
-    <a href="https://pypi.org/project/vizflow-cli/"><img alt="PyPI" src="https://img.shields.io/pypi/v/vizflow-cli.svg"></a>
-    <a href="https://pypi.org/project/vizflow-cli/"><img alt="Python" src="https://img.shields.io/pypi/pyversions/vizflow-cli.svg"></a>
-    <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-green.svg"></a>
-    <a href="https://github.com/shazeus/vizflow-cli"><img alt="Stars" src="https://img.shields.io/github/stars/shazeus/vizflow-cli.svg?style=social"></a>
+    <a href="https://pypi.org/project/vizflow-cli/"><img src="https://img.shields.io/pypi/v/vizflow-cli?color=blue&label=PyPI" alt="PyPI"></a>
+    <a href="https://pypi.org/project/vizflow-cli/"><img src="https://img.shields.io/pypi/pyversions/vizflow-cli" alt="Python"></a>
+    <a href="https://github.com/shazeus/vizflow-cli/blob/main/LICENSE"><img src="https://img.shields.io/github/license/shazeus/vizflow-cli" alt="License"></a>
+    <a href="https://github.com/shazeus/vizflow-cli/stargazers"><img src="https://img.shields.io/github/stars/shazeus/vizflow-cli?style=social" alt="Stars"></a>
   </p>
 </p>
 
