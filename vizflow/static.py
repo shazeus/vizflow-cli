@@ -10,7 +10,9 @@ import warnings
 
 _mpl_config = Path(tempfile.gettempdir()) / "vizflow-matplotlib"
 _mpl_config.mkdir(parents=True, exist_ok=True)
+(_mpl_config / "fontconfig").mkdir(parents=True, exist_ok=True)
 os.environ.setdefault("MPLCONFIGDIR", str(_mpl_config))
+os.environ.setdefault("XDG_CACHE_HOME", str(_mpl_config))
 
 import matplotlib
 
