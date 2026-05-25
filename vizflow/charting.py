@@ -79,9 +79,15 @@ def _bar_chart(
 
     frame = _coerce_datetime_axis(frame, x)
     if y and y in frame.columns:
-        plot_frame = frame.groupby(x, dropna=False, as_index=False)[y].sum(numeric_only=True)
-        return px.bar(plot_frame, x=x, y=y, color=color if color in plot_frame.columns else None, title=title)
+        group_columns = [x]
+        if color and color in frame.columns and color != x:
+            group_columns.append(color)
+        plot_frame = frame.groupby(group_columns, dropna=False, as_index=False)[y].sum(numeric_only=True)
+        return px.bar(plot_frame, x=x, y=y, color=color if color in group_columns else None, title=title)
 
+    if color and color in frame.columns and color != x:
+        counts = frame.groupby([x, color], dropna=False).size().reset_index(name="count")
+        return px.bar(counts, x=x, y="count", color=color, title=title or f"{x} counts")
     counts = frame[x].astype(str).fillna("(null)").value_counts().head(30).rename_axis(x).reset_index(name="count")
     return px.bar(counts, x=x, y="count", title=title or f"{x} counts")
 

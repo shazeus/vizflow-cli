@@ -73,17 +73,41 @@ def _style_axes(ax: plt.Axes, title: str | None = None) -> None:
         ax.spines[spine].set_visible(False)
 
 
-def _draw_bar(ax: plt.Axes, frame: pd.DataFrame, x: str | None, y: str | None, title: str | None) -> None:
+def _draw_bar(
+    ax: plt.Axes,
+    frame: pd.DataFrame,
+    x: str | None,
+    y: str | None,
+    color: str | None,
+    title: str | None,
+) -> None:
     groups = columns_by_type(frame)
     x = x or _first(groups, "categorical", "boolean", "datetime", "text") or str(frame.columns[0])
     y = y or _first(groups, "numeric")
-    if y and y in frame.columns:
-        grouped = frame.groupby(x, dropna=False)[y].sum(numeric_only=True).sort_values(ascending=False).head(30)
+    color = color if color and color in frame.columns and color != x else None
+
+    if color and y and y in frame.columns:
+        grouped_frame = frame.groupby([x, color], dropna=False)[y].sum(numeric_only=True).unstack(fill_value=0)
+        grouped_frame = grouped_frame.loc[grouped_frame.sum(axis=1).sort_values(ascending=False).head(30).index]
+        grouped_frame.index = grouped_frame.index.astype(str)
+        grouped_frame.plot(kind="bar", ax=ax)
+        ax.legend(title=color)
         ylabel = y
-    else:
-        grouped = frame[x].astype(str).fillna("(null)").value_counts().head(30)
+    elif color:
+        grouped_frame = frame.groupby([x, color], dropna=False).size().unstack(fill_value=0)
+        grouped_frame = grouped_frame.loc[grouped_frame.sum(axis=1).sort_values(ascending=False).head(30).index]
+        grouped_frame.index = grouped_frame.index.astype(str)
+        grouped_frame.plot(kind="bar", ax=ax)
+        ax.legend(title=color)
         ylabel = "count"
-    ax.bar(grouped.index.astype(str), grouped.to_numpy(), color="#2f6fbd")
+    else:
+        if y and y in frame.columns:
+            grouped = frame.groupby(x, dropna=False)[y].sum(numeric_only=True).sort_values(ascending=False).head(30)
+            ylabel = y
+        else:
+            grouped = frame[x].astype(str).fillna("(null)").value_counts().head(30)
+            ylabel = "count"
+        ax.bar(grouped.index.astype(str), grouped.to_numpy(), color="#2f6fbd")
     ax.set_xlabel(x)
     ax.set_ylabel(ylabel)
     ax.tick_params(axis="x", rotation=35)
@@ -280,7 +304,7 @@ def save_static_chart(
 
     fig, ax = plt.subplots(figsize=(10, 6), constrained_layout=True)
     if chart_type == "bar":
-        _draw_bar(ax, frame, x, y, title)
+        _draw_bar(ax, frame, x, y, color, title)
     elif chart_type == "line":
         _draw_line(ax, frame, x, y, color, title)
     elif chart_type == "scatter":

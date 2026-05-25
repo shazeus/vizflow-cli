@@ -15,7 +15,7 @@ Vizflow turns raw CSV, JSON, Parquet, SQLite, SQL script, and piped stdin data i
 
 - **Automatic schema inspection** — detect semantic column types, null counts, unique values, samples, and numeric/date statistics.
 - **Smart chart suggestions** — recommend line, bar, scatter, pie, heatmap, treemap, and histogram views from the data shape.
-- **Interactive Plotly charts** — generate browser-ready HTML or static PNG/SVG/PDF exports.
+- **Interactive Plotly charts** — generate browser-ready HTML or static PNG/SVG/PDF exports with x/y/color controls.
 - **Dashboard mode** — combine multiple chart specs into a responsive standalone HTML page.
 - **Local preview server** — launch a Flask web server for charts, dashboards, schema, and sample-data browsing on localhost.
 - **Data conversion and comparison** — convert CSV/JSON/Parquet inputs and compare two datasets visually.
