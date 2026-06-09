@@ -1,3 +1,3 @@
 """Vizflow: data visualization pipelines from the command line."""
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"

@@ -167,11 +167,22 @@ def _treemap_chart(
     if not path:
         raise ChartError("Treemaps need at least one categorical/text column.")
     values = y or _first(groups, "numeric")
+    color_is_numeric = color is not None and color in frame.columns and classify_series(frame[color]) == "numeric"
+    group_columns = list(path)
+    if color and color in frame.columns and color not in group_columns and color != values and not color_is_numeric:
+        group_columns.append(color)
+        path = [*path, color]
     if values and values in frame.columns:
-        plot_frame = frame.groupby(path, dropna=False, as_index=False)[values].sum(numeric_only=True)
+        aggregations: dict[str, str] = {values: "sum"}
+        if color and color in frame.columns and color_is_numeric and color != values:
+            aggregations[color] = "mean"
+        plot_frame = frame.groupby(group_columns, dropna=False, as_index=False).agg(aggregations)
     else:
-        plot_frame = frame.groupby(path, dropna=False).size().reset_index(name="count")
+        plot_frame = frame.groupby(group_columns, dropna=False).size().reset_index(name="count")
         values = "count"
+        if color and color in frame.columns and color_is_numeric:
+            color_values = frame.groupby(group_columns, dropna=False, as_index=False)[color].mean()
+            plot_frame = plot_frame.merge(color_values, on=group_columns, how="left")
     return px.treemap(plot_frame, path=path, values=values, color=color, title=title)
 
 
