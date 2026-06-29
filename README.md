@@ -41,6 +41,7 @@ Inspect a dataset:
 
 ```bash
 vizflow schema examples/sales.csv
+vizflow schema examples/sales.csv --json-output | jq '.suggested_charts'
 ```
 
 Create an auto-selected chart:

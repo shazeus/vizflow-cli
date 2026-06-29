@@ -222,6 +222,15 @@ def schema_as_records(frame: pd.DataFrame) -> list[dict[str, Any]]:
     return records
 
 
+def schema_report(frame: pd.DataFrame) -> dict[str, Any]:
+    return {
+        "rows": int(len(frame)),
+        "columns": int(len(frame.columns)),
+        "schema": schema_as_records(frame),
+        "suggested_charts": suggest_charts(frame),
+    }
+
+
 def render_schema(console: Console, frame: pd.DataFrame) -> None:
     """Render a schema inspector report with Rich."""
 

@@ -13,7 +13,7 @@ from .charting import CHART_TYPES, EXPORT_FORMATS, ChartError, make_chart, save_
 from .compare import render_compare, write_compare_html
 from .dashboard import write_dashboard
 from .io import DataLoadError, default_output_path, infer_format, read_data, write_data
-from .schema import render_schema
+from .schema import render_schema, schema_report
 from .server import create_app
 
 
@@ -150,11 +150,17 @@ def dashboard(
 @click.argument("file", required=False)
 @click.option("--query", help="SQL query for SQLite database or SQL script inputs.")
 @click.option("--table", help="Table name for SQLite database or SQL script inputs.")
+@click.option("--json-output", is_flag=True, help="Print machine-readable schema JSON.")
 @_friendly_errors
-def schema(file: str | None, query: str | None, table: str | None) -> None:
+def schema(file: str | None, query: str | None, table: str | None, json_output: bool) -> None:
     """Inspect data types, null counts, unique values, stats, and chart suggestions."""
 
     frame = read_data(file, query=query, table=table)
+    if json_output:
+        import json
+
+        click.echo(json.dumps(schema_report(frame), indent=2, sort_keys=True))
+        return
     render_schema(console, frame)
 
 
